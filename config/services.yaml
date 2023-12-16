@@ -4,12 +4,15 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
+    mainUrl: '%env(string:MAIN_URL)%'
     s3:
         endpoint: '%env(string:S3_ENDPOINT)%'
         key: '%env(string:S3_KEY)%'
         secret: '%env(string:S3_SECRET)%'
         bucket: '%env(string:S3_BUCKET)%'
         region: '%env(string:S3_REGION)%'
+    security:
+        token: '%env(string:SECURE_TOKEN)%'
 
     public_s3_host: '%env(string:PUBLIC_S3_HOST)%'
     admin_key: '%env(string:ADMIN_KEY)%'

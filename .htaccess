@@ -1,6 +1,8 @@
 RewriteEngine on
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{HTTP:Front-End-Https} !on
+RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
 RewriteRule ^.*$ /public/index.php [L,QSA]
 php_value upload_max_filesize 80M
 php_value post_max_size 100M

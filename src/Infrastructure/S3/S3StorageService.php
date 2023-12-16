@@ -7,6 +7,7 @@ namespace App\Infrastructure\S3;
 use App\Application\Api\FileStorageInterface;
 use Aws\S3\Exception\S3Exception;
 use Aws\S3\S3Client;
+use GuzzleHttp\Psr7\Stream;
 use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 
 class S3StorageService implements FileStorageInterface
@@ -58,5 +59,20 @@ class S3StorageService implements FileStorageInterface
         } catch (S3Exception $e) {
             throw new \Exception( $e->getMessage() . DIRECTORY_SEPARATOR . $e->getAwsErrorMessage() . DIRECTORY_SEPARATOR . $e->getAwsErrorCode(), 401);
         }
+    }
+
+    public function download(string $key = '0dab6916-b303-4125-a616-0add108a6a17')
+    {
+        if (!$this->s3Client->doesObjectExist($this->bucket, $key)) {
+            throw new \Exception('Файл не существует', 400);
+        }
+
+
+        $result = $this->s3Client->getObject([
+        'Bucket' => $this->bucket,
+            'Key' => $key,
+        ]);
+
+        return $result->get('Body');
     }
 }
